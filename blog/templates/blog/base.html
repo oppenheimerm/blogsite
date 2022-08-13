@@ -1,0 +1,159 @@
+{% load blog_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <!-- Fonts -->  
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/a11y-dark.min.css" integrity="sha512-Vj6gPCk8EZlqnoveEyuGyYaWZ1+jyjMPg8g4shwyyNlRQl6d3L9At02ZHQr5K6s5duZl/+YKMnM3/8pDhoUphg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static '/css/blog.css' %}">
+</head>
+<body class="dark-theme">
+    <!-- app starts -->
+    <div id="app">
+
+
+        <!-- sidebar starts -->
+        <aside id="sidebar">
+            <!-- container -->
+            <div class="container">
+                <h3>Michiel Oppenheimer</h3>
+                <h4>Code, life and wheels</h4>
+    
+                <ul class="side-menu">
+                    <li class="nav-item">
+                        <a href="/blog" class="nav-link is-active">
+                            <i></i>
+                            <span>Home</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/" class="nav-link">
+                            <i></i>
+                            <span>Categories</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/" class="nav-link">
+                            <i></i>
+                            <span>Tags</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/" class="nav-link">
+                            <i></i>
+                            <span>About</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/" class="nav-link">
+                            <i></i>
+                            <span>Archives</span>
+                        </a>
+                    </li>
+                </ul>
+                <h2 class="h1">My Blog</h2>
+                <p>This is my blog,</p>
+                <p>This is my blog. I've written {% total_posts %} posts so far.</p>  
+                <h3>Latest posts</h3>
+                {% show_latest_posts 3 %}
+    
+                <h3>Most commented posts</h3>
+                {% get_most_commented_posts as most_commented_posts %}
+                <ul>
+                    {% for post in most_commented_posts %}
+                    <li>
+                        <a href="{{ post.get_absolute_irl }}">
+                            {{post.title}}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <!-- container -->
+        </aside>
+        <!-- sidebar ends -->
+
+        <!-- content-wrap starts -->
+        <div id="content-wrap">
+
+            <div class="mobile-nav-wrap">
+                <div class="mobile-item-wrap">
+                    <span id="mobile-menu-toggle" class="material-symbols-outlined">
+                        menu
+                    </span>
+                </div>
+                <div class="mobile-item-wrap itm-wrap-large">
+                    <span class="nav-title">
+                        Michiel Oppenheimer
+                    </span>
+                </div>
+                <div class="mobile-item-wrap">
+                    <span class="material-symbols-outlined">
+                        search
+                    </span>
+                </div>
+            </div>
+            
+            <div class="desktop-nav">
+                <a href="/blog/">Home</a>
+                <div class="flex-wrapper">
+
+                </div>
+            </div>
+
+            <div class="content-wrap-inner">
+                <!-- main starts -->
+                <main class="content">   
+                    {% block content %}
+                    {% endblock %}
+                </main>
+                <!-- main ends -->
+
+                <footer>
+                    <h2>Some Footer Info</h2>
+                </footer>
+            </div>
+
+        </div>
+        <!-- content-wrap ends -->
+
+
+    </div>
+    <!-- app ends -->
+
+    <script src="{% static 'js/app.js' %}"></script> 
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {
+            inlineMath: [['$','$'], ['\\(','\\)']],
+            processEscapes: true},
+            jax: ["input/TeX","input/MathML","input/AsciiMath","output/CommonHTML"],
+            extensions: ["tex2jax.js","mml2jax.js","asciimath2jax.js","MathMenu.js","MathZoom.js","AssistiveMML.js", "[Contrib]/a11y/accessibility-menu.js"],
+            TeX: {
+            extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"],
+            equationNumbers: {
+            autoNumber: "AMS"
+            }
+          }
+        });
+      </script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js" 
+        integrity="sha512-gU7kztaQEl7SHJyraPfZLQCNnrKdaQi5ndOyt4L4UPL/FHDd/uB9Je6KDARIqwnNNE27hnqoWLBq+Kpe4iHfeQ==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>

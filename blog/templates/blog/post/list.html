@@ -1,0 +1,71 @@
+{% extends "blog/base.html" %}
+
+{% block title %}My Blog{% endblock %}
+{% load blog_tags  %}
+
+
+<div class="container">
+    
+{% block content %}
+
+    <!-- containern -->
+    <div class="container">
+        <div class="blog-card-group">
+
+            {% if tag %}
+            <h2>
+                Post tagged with "{{ tag.name }}"
+            </h2>
+            {% endif %} 
+    
+            {% for post in posts %}
+                <div class="blog-card">
+                    <div class="blog-cover-wrap">
+                        {% if post.post_cover %}
+                        <div class="blog-card-banner">
+                            <img src="{{post.post_cover.url}}" 
+                            alt="{{post.post.title}}" 
+                            class="blog-banner-img" width="250">
+                        </div>
+                        {% endif %} 
+                    </div>
+
+                    <div class="blog-card-meta">
+                        <h3>
+                            <a class="h3" href="{{ post.get_absolute_url }}">
+                                {{ post.title }}
+                            </a>
+                        </h3>
+    
+                        <div class="blog-text">
+                            {{ post.body|truncatewords:30|markdown|truncatewords_html:30 }}
+                        </div>
+            
+                        <p class="tags">
+                            Tags:
+                            {% for tag in post.tags.all %}
+                                <a href="{% url "blog:post_list_by_tag" tag.slug %}">
+                                    {{ tag.name }}
+                                </a>
+                                {% if not forloop.last %}, {% endif %}
+                            {% endfor %}
+                        </p>
+            
+                        <p class="date">
+                            Published {{ post.publish }} by {{ post.author }}
+                        </p>   
+                    </div>     
+                    
+                </div>            
+    
+    
+            {% endfor %}
+    
+        </div>
+    </div>
+    <!-- end containern -->
+
+    {% include "pagination.html" with page=posts %}
+
+{% endblock %}
+
